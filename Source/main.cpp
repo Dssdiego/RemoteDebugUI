@@ -16,7 +16,7 @@
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_sdl3.h>
 #include <imgui/imgui_impl_vulkan.h>
-// #include <vulkan/vulkan>
+#include <vulkan/vulkan.h>
 #include <stdio.h>          // printf, fprintf
 #include <stdlib.h>         // abort
 #include <SDL3/SDL.h>
