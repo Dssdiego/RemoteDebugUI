@@ -4,6 +4,10 @@ workspace "RemoteDebugUI"
 	startproject "RemoteDebugUI"
 	toolset ("msc")
 
+group "Libraries"
+	include "lib_imgui.lua"
+group ""
+
 project "RemoteDebugUI"
 	kind "ConsoleApp"
 	language "C++"
