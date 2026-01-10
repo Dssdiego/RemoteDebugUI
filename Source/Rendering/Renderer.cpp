@@ -1,15 +1,14 @@
 #include "Renderer.h"
 
-#include <stdio.h>          // printf, fprintf
-#include <stdlib.h>         // abort
-
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_vulkan.h>
 
 #include <imgui/imgui_impl_sdl3.h>
 
-#include "../UI/DebugUI.h"
 #include "Window.h"
+
+#include "../UI/DebugUI.h"
+#include "../Logging/Logger.h"
 
 void Renderer::Init()
 {
@@ -93,7 +92,7 @@ void Renderer::CreateVulkanWindow(VkSurfaceKHR surface, int width, int height)
     vkGetPhysicalDeviceSurfaceSupportKHR(mPhysicalDevice, mQueueFamily, mVulkanWindow->Surface, &res);
     if (res != VK_TRUE)
     {
-        fprintf(stderr, "Error no WSI support on physical device 0\n");
+        Logger::Error("Error no WSI support on physical device 0\n");
         exit(-1);
     }
 
@@ -174,7 +173,7 @@ void Renderer::CheckVKResult(const VkResult err)
         return;
     }
     
-    fprintf(stderr, "[vulkan] Error: VkResult = %d\n", err);
+    (stderr, "[vulkan] Error: VkResult = %d\n", err);
     
     if (err < 0)
     {
