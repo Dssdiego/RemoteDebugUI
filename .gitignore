@@ -3,3 +3,4 @@ Intermediate/
 *.sln
 
 Build/
+*.DotSettings.user
