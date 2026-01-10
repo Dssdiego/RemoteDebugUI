@@ -134,7 +134,6 @@ void Renderer::Render()
     ImGui::NewFrame();
 
     DebugUI::Render();
-    // DebugUI::RenderDemos();
 
     // Rendering
     ImGui::Render();
