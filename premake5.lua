@@ -22,7 +22,8 @@ project "RemoteDebugUI"
 	{ 
 		"SDL3",
 		"vulkan-1",
-		"ImGui"
+        "ImGui",
+		"Ws2_32.lib"
 	}
 	
 	flags 
