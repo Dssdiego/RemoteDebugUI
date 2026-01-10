@@ -1,7 +1,17 @@
 #include "Rendering/Renderer.h"
+#include "Rendering/Window.h"
 
 int main(int, char**)
 {
-    auto renderer = new Renderer();
-    return renderer->Run(1200, 800, 1.15f);
+    Renderer::SetScale(1.15f);
+    Window::Init();
+    
+    while (!Window::ShouldClose())
+    {
+        Window::Update();
+        Renderer::Render();
+    }
+    
+    Renderer::Shutdown();
+    Window::Shutdown();
 }
