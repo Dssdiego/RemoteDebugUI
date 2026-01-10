@@ -38,7 +38,9 @@ bool Renderer::Run(const int width, const int height, const float scale)
         uint32_t sdl_extensions_count = 0;
         const char* const* sdl_extensions = SDL_Vulkan_GetInstanceExtensions(&sdl_extensions_count);
         for (uint32_t n = 0; n < sdl_extensions_count; n++)
+        {
             extensions.push_back(sdl_extensions[n]);
+        }
     }
     SetupVulkan(extensions);
 
@@ -157,6 +159,7 @@ bool Renderer::Run(const int width, const int height, const float scale)
         ImGui::NewFrame();
 
         DebugUI::Render();
+        // DebugUI::RenderDemos();
 
         // Rendering
         ImGui::Render();
