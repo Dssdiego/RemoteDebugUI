@@ -40,7 +40,8 @@ project "RemoteDebugUI"
 
 		"Source/Tests/**.cc",
 
-		"*.lua"
+        "*.lua",
+		".gitignore"
 	}
 
 	libdirs
