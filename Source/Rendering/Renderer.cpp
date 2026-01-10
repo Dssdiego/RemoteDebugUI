@@ -23,6 +23,8 @@ void Renderer::Init()
     }
     
     SetupVulkan(extensions);
+    
+    Logger::Info("Renderer initialized");
 }
 
 void Renderer::SetupBackend()
@@ -163,6 +165,8 @@ void Renderer::Shutdown()
 
     CleanupVulkanWindow();
     CleanupVulkan();
+    
+    Logger::Info("Renderer shutdown");
 }
 
 void Renderer::CheckVKResult(const VkResult err)

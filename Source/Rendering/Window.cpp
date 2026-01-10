@@ -45,6 +45,8 @@ void Window::Init()
     
     SDL_SetWindowPosition(mWindow, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
     SDL_ShowWindow(mWindow);
+    
+    Logger::Info("Window initialized");
 }
 
 void Window::Update()
@@ -87,4 +89,6 @@ void Window::Shutdown()
 {
     SDL_DestroyWindow(mWindow);
     SDL_Quit();
+    
+    Logger::Info("Window shutdown");
 }

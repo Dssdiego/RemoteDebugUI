@@ -33,6 +33,8 @@ void TCPServer::Init()
         Logger::Error("Bind failed", std::to_string(WSAGetLastError()));
         Shutdown();
     }
+    
+    Logger::Info("TCP Server initialized and listening on " + mListenAddress + ":" + std::to_string(mListenPort));
 }
 
 void TCPServer::Poll()
@@ -43,4 +45,8 @@ void TCPServer::Shutdown()
 {
     closesocket(mSocket);
     mSocket = INVALID_SOCKET;
+    
+    WSACleanup();
+    
+    Logger::Info("TCP Server shutdown");
 }
