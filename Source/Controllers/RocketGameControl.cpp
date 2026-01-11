@@ -1,7 +1,9 @@
 #include "RocketGameControl.h"
 
 #include <imgui/imgui.h>
+
 #include "../Logging/Logger.h"
+#include "../Networking/TCPClient.h"
 
 void RocketGameControl::Render()
 {
@@ -11,7 +13,7 @@ void RocketGameControl::Render()
 
 void RocketGameControl::RenderTCP()
 {
-    ImGui::Begin("TCP Server");
+    ImGui::Begin("TCP Server Communication");
     
     static char bfIP[128] = "127.0.0.1";
     ImGui::InputText("IP", bfIP, sizeof(bfIP));
@@ -21,6 +23,7 @@ void RocketGameControl::RenderTCP()
     if (ImGui::Button("Click me"))
     {
         Logger::Info("Button was clicked in Debug UI");
+        TCPClient::SendData("Hello from Debug UI!");
     }
     
     ImGui::End();
