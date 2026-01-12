@@ -17,23 +17,40 @@ void RocketGameControl::RenderServerConnection()
     ImGui::Begin("Server (Game) Connection");
     
     static std::string serverAddress = TCPClient::GetAddress();
-    ImGui::InputText("IP", &serverAddress);
+    if (ImGui::InputText("IP", &serverAddress))
+    {
+        TCPClient::SetAddress(serverAddress);
+    }
     
     static std::string serverPort = TCPClient::GetPortStr();
-    ImGui::InputText("Port", &serverPort);
-    
-    if (ImGui::Button("Connect"))
+    if (ImGui::InputText("Port", &serverPort))
     {
-        TCPClient::ConnectToServer();
+        TCPClient::SetPortNumber(std::stoul(serverPort));
+    }
+    
+    // conection button
+    if (ImGui::Button(TCPClient::GetStatusStrForConnectButton().c_str()))
+    {
+        auto status = TCPClient::GetStatus();
+
+        switch (status)
+        {
+            case EClientStatus::CONNECTED:
+            {
+                TCPClient::DisconnectFromServer();
+                ImGui::End();
+                return;
+            }
+            case EClientStatus::DISCONNECTED:
+            {
+                TCPClient::ConnectToServer();
+                ImGui::End();
+                return;
+            }
+        }
     }
     
     ImGui::Text(TCPClient::GetStatusStr().c_str());
-    
-    // if (ImGui::Button("Click me"))
-    // {
-    //     Logger::Info("Button was clicked in Debug UI");
-    //     TCPClient::SendData("Hello from Debug UI!");
-    // }
     
     ImGui::End();
 }
@@ -43,6 +60,11 @@ void RocketGameControl::RenderControls()
     ImGui::Begin("Controls");
     
     ImGui::Text("Control stuff for the game goes here");
+    
+    if (ImGui::Button("Test Enemy Spawn"))
+    {
+        TCPClient::SendData("debug_spawn_enemy");
+    }
     
     ImGui::End();
 }

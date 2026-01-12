@@ -29,10 +29,18 @@ void TCPClient::Init()
 
 void TCPClient::ConnectToServer()
 {
+    // if the socket is invalid when trying to connect to a server, initialize it first
+    if (mSocket == INVALID_SOCKET)
+    {
+        Init();
+    }
+    
     sockaddr_in address;
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = inet_addr(mServerAddress.c_str());
     address.sin_port = htons(mServerPort);
+    
+    Logger::Info("Trying to connect to server " + mServerAddress + ":" + std::to_string(mServerPort));
 
     if (connect(mSocket, reinterpret_cast<sockaddr*>(&address), sizeof(address)) == SOCKET_ERROR)
     {
@@ -43,6 +51,11 @@ void TCPClient::ConnectToServer()
     {
         mStatus = EClientStatus::CONNECTED;
     }
+}
+
+void TCPClient::DisconnectFromServer()
+{
+    Shutdown();
 }
 
 void TCPClient::SendData(const std::string& data)
@@ -67,9 +80,22 @@ std::string TCPClient::GetStatusStr()
     switch (mStatus)
     {
         case EClientStatus::CONNECTED:
-            return "Connected";
+            return "Status: Connected";
         case EClientStatus::DISCONNECTED:
-            return "Disconnected";
+            return "Status: Disconnected";
+    }
+    
+    return "Status: -";
+}
+
+std::string TCPClient::GetStatusStrForConnectButton()
+{
+    switch (mStatus)
+    {
+        case EClientStatus::CONNECTED:
+            return "Disconnect";
+        case EClientStatus::DISCONNECTED:
+            return "Connect";
     }
     
     return "-";

@@ -16,17 +16,23 @@ public:
     static void Init();
     
     static void ConnectToServer();
+    static void DisconnectFromServer();
     static void SendData(const std::string& data);
     
     static void Shutdown();
     
 public:
     
+    static EClientStatus GetStatus() { return mStatus; }
     static std::string GetStatusStr();
+    static std::string GetStatusStrForConnectButton();
     
     static std::string GetAddress() { return mServerAddress; }
+    static void SetAddress(const std::string& address) { mServerAddress = address; }
+    
     static uint32_t GetPort() { return mServerPort; }
     static std::string GetPortStr() { return std::to_string(mServerPort); }
+    static void SetPortNumber(uint32_t port) { mServerPort = port; }
     
 private:
     
