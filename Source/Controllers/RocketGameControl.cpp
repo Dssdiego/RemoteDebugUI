@@ -1,30 +1,39 @@
 #include "RocketGameControl.h"
 
 #include <imgui/imgui.h>
+#include <imgui/imgui_stdlib.cpp>
 
 #include "../Logging/Logger.h"
 #include "../Networking/TCPClient.h"
 
 void RocketGameControl::Render()
 {
-    RenderTCP();
+    RenderServerConnection();
     RenderControls();
 }
 
-void RocketGameControl::RenderTCP()
+void RocketGameControl::RenderServerConnection()
 {
-    ImGui::Begin("TCP Server Communication");
+    ImGui::Begin("Server (Game) Connection");
     
-    static char bfIP[128] = "127.0.0.1";
-    ImGui::InputText("IP", bfIP, sizeof(bfIP));
+    static std::string serverAddress = TCPClient::GetAddress();
+    ImGui::InputText("IP", &serverAddress);
     
-    ImGui::Text("Something nice");
+    static std::string serverPort = TCPClient::GetPortStr();
+    ImGui::InputText("Port", &serverPort);
     
-    if (ImGui::Button("Click me"))
+    if (ImGui::Button("Connect"))
     {
-        Logger::Info("Button was clicked in Debug UI");
-        TCPClient::SendData("Hello from Debug UI!");
+        TCPClient::ConnectToServer();
     }
+    
+    ImGui::Text(TCPClient::GetStatusStr().c_str());
+    
+    // if (ImGui::Button("Click me"))
+    // {
+    //     Logger::Info("Button was clicked in Debug UI");
+    //     TCPClient::SendData("Hello from Debug UI!");
+    // }
     
     ImGui::End();
 }

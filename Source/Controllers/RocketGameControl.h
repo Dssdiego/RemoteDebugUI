@@ -8,6 +8,6 @@ public:
     
 private:
     
-    static void RenderTCP();
+    static void RenderServerConnection();
     static void RenderControls();
 };

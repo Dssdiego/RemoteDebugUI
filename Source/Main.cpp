@@ -12,8 +12,6 @@ int main(int, char**)
     
     while (!Window::ShouldClose())
     {
-        TCPClient::Poll();
-        
         Window::Update();
         Renderer::Render();
     }

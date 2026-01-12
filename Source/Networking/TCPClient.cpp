@@ -24,7 +24,11 @@ void TCPClient::Init()
         Logger::Error("Could not create socket", std::to_string(WSAGetLastError()));
     }
 
-    // connect to server
+    Logger::Info("TCP Client initialized");
+}
+
+void TCPClient::ConnectToServer()
+{
     sockaddr_in address;
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = inet_addr(mServerAddress.c_str());
@@ -32,30 +36,24 @@ void TCPClient::Init()
 
     if (connect(mSocket, reinterpret_cast<sockaddr*>(&address), sizeof(address)) == SOCKET_ERROR)
     {
+        mStatus = EClientStatus::DISCONNECTED;
         Logger::Error("Connection to server failed", std::to_string(WSAGetLastError()));
-        Shutdown();
     }
-
-    Logger::Info("TCP Client initialized");
-
+    else
+    {
+        mStatus = EClientStatus::CONNECTED;
+    }
 }
 
-void TCPClient::Poll()
+void TCPClient::SendData(const std::string& data)
 {
-    //sending data
-    // int sbyteCount = send(mSocket, "Ping", 200, 0);
-    // if (sbyteCount == SOCKET_ERROR)
-    // {
-    //     std::cout << "Server send error: " << WSAGetLastError() << '\n';
-    // }
-    // else
-    // {
-    //     std::cout << "Server: sent" << sbyteCount << '\n';
-    // }
+    int sbyteCount = send(mSocket, data.c_str(), static_cast<int>(strlen(data.c_str())), 0);
 }
 
 void TCPClient::Shutdown()
 {
+    mStatus = EClientStatus::DISCONNECTED;
+    
     closesocket(mSocket);
     mSocket = INVALID_SOCKET;
 
@@ -64,7 +62,15 @@ void TCPClient::Shutdown()
     Logger::Info("TCP Client shutdown");
 }
 
-void TCPClient::SendData(const std::string& data)
+std::string TCPClient::GetStatusStr()
 {
-    int sbyteCount = send(mSocket, data.c_str(), static_cast<int>(strlen(data.c_str())), 0);
+    switch (mStatus)
+    {
+        case EClientStatus::CONNECTED:
+            return "Connected";
+        case EClientStatus::DISCONNECTED:
+            return "Disconnected";
+    }
+    
+    return "-";
 }
