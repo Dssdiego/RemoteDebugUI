@@ -97,8 +97,8 @@ void RocketGameControl::RenderControls()
 void RocketGameControl::RenderTabActors()
 {
     // spawn dropdown
-    static const char* items[] = { "[E] Bomb Seeker", "[E] Bullet Bomber", "[E] Mine", "[E] Severance Drone", "[E] Wavy Rider" }; // FIXME: Make this a dictionary
-    static const char* ids[] = { "BombSeeker", "BulletBomber", "Mine", "SeveranceDrone", "WavyRider" };                           // FIXME: Make this a dictionary
+    static const char* items[] = { "[P] Life Prop", "[E] Bomb Seeker", "[E] Bullet Bomber", "[E] Mine", "[E] Severance Drone", "[E] Wavy Rider" }; // FIXME: Make this a dictionary
+    static const char* ids[] = { "LifeProp", "BombSeeker", "BulletBomber", "Mine", "SeveranceDrone", "WavyRider" };                           // FIXME: Make this a dictionary
     static int current_item_index = 0;
 
     ImGui::Combo("Actor", &current_item_index, items, IM_ARRAYSIZE(items));
