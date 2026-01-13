@@ -70,6 +70,18 @@ void RocketGameControl::RenderControls()
             ImGui::EndTabItem();
         }
         
+        if (ImGui::BeginTabItem("Lives"))
+        {
+            RenderTabLives();
+            ImGui::EndTabItem();
+        }
+        
+        if (ImGui::BeginTabItem("Scenes"))
+        {
+            RenderTabScenes();
+            ImGui::EndTabItem();
+        }
+        
         if (ImGui::BeginTabItem("Time"))
         {
             RenderTabTime();
@@ -85,15 +97,11 @@ void RocketGameControl::RenderControls()
 void RocketGameControl::RenderTabActors()
 {
     // spawn dropdown
-    const char* items[] = { "[E] Bomb Seeker", "[E] Bullet Bomber", "[E] Mine", "[E] Severance Drone", "[E] Wavy Rider" }; // FIXME: Make this a dictionary
-    const char* ids[] = { "BombSeeker", "BulletBomber", "Mine", "SeveranceDrone", "WavyRider" };                           // FIXME: Make this a dictionary
+    static const char* items[] = { "[E] Bomb Seeker", "[E] Bullet Bomber", "[E] Mine", "[E] Severance Drone", "[E] Wavy Rider" }; // FIXME: Make this a dictionary
+    static const char* ids[] = { "BombSeeker", "BulletBomber", "Mine", "SeveranceDrone", "WavyRider" };                           // FIXME: Make this a dictionary
     static int current_item_index = 0;
 
-    if (ImGui::Combo("Actor", &current_item_index, items, IM_ARRAYSIZE(items)))
-    {
-        // Optional: Code to execute when a new item is selected
-        // e.g., printf("Selected: %s\n", items[current_item_index]);
-    }
+    ImGui::Combo("Actor", &current_item_index, items, IM_ARRAYSIZE(items));
     
     // position input
     static float position[2] = { 300.0f, 150.0f };
@@ -104,6 +112,60 @@ void RocketGameControl::RenderTabActors()
     {
         std::stringstream ss;
         ss << "spawn_actor;" << ids[current_item_index] << ";[" << static_cast<int>(position[0]) << ", " << static_cast<int>(position[1]) << "]";
+        TCPClient::SendData(ss.str());
+    }
+}
+
+void RocketGameControl::RenderTabLives()
+{
+    // Lives
+    static int lifeCount = 0;
+    ImGui::InputInt("Life", &lifeCount);
+    
+    if (ImGui::Button("Add Life"))
+    {
+        std::stringstream ss;
+        ss << "life_add;" << lifeCount << ";";
+        TCPClient::SendData(ss.str());
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("Remove Life"))
+    {
+        std::stringstream ss;
+        ss << "life_remove;" << lifeCount << ";";
+        TCPClient::SendData(ss.str());
+    }
+    
+    // Life Slots
+    static int lifeSlotCount = 0;
+    ImGui::InputInt("Life Slot", &lifeSlotCount);
+    
+    if (ImGui::Button("Add Life Slot"))
+    {
+        std::stringstream ss;
+        ss << "life_slot_add;" << lifeSlotCount << ";";
+        TCPClient::SendData(ss.str());
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("Remove Life Slot"))
+    {
+        std::stringstream ss;
+        ss << "life_slot_remove;" << lifeSlotCount << ";";
+        TCPClient::SendData(ss.str());
+    }
+}
+
+void RocketGameControl::RenderTabScenes()
+{
+    static const char* ids[] = { "MainMenu", "Game", "GameOver" };
+    static int currentIdx = 0;
+
+    ImGui::Combo("Scene", &currentIdx, ids, IM_ARRAYSIZE(ids));
+    
+    if (ImGui::Button("Change"))
+    {
+        std::stringstream ss;
+        ss << "scene_change;" << ids[currentIdx] << ";";
         TCPClient::SendData(ss.str());
     }
 }

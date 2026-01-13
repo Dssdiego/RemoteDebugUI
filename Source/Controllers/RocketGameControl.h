@@ -12,5 +12,7 @@ private:
     static void RenderControls();
     
     static void RenderTabActors();
+    static void RenderTabLives();
+    static void RenderTabScenes();
     static void RenderTabTime();
 };
