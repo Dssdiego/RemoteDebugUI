@@ -3,6 +3,8 @@
 #include <WinSock2.h>
 #include <string>
 
+#include <imgui/imgui.h>
+
 enum class EClientStatus : uint8_t
 {
     CONNECTED,
@@ -24,6 +26,7 @@ public:
 public:
     
     static EClientStatus GetStatus() { return mStatus; }
+    static ImVec4 GetStatusColor();
     static std::string GetStatusStr();
     static std::string GetStatusStrForConnectButton();
     

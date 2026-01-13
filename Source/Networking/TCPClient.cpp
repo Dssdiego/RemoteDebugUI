@@ -61,6 +61,11 @@ void TCPClient::DisconnectFromServer()
 void TCPClient::SendData(const std::string& data)
 {
     int sbyteCount = send(mSocket, data.c_str(), static_cast<int>(strlen(data.c_str())), 0);
+    if (sbyteCount == SOCKET_ERROR)
+    {
+        Logger::Error("Send data failed. Disconnecting from the server...", std::to_string(WSAGetLastError()));
+        DisconnectFromServer();
+    }
 }
 
 void TCPClient::Shutdown()
@@ -73,6 +78,19 @@ void TCPClient::Shutdown()
     WSACleanup();
 
     Logger::Info("TCP Client shutdown");
+}
+
+ImVec4 TCPClient::GetStatusColor()
+{
+    switch (mStatus)
+    {
+    case EClientStatus::CONNECTED:
+        return {0.f, 1.f, 0.f, 1.f};
+    case EClientStatus::DISCONNECTED:
+        return {1.f, 0.f, 0.f, 1.f};
+    }
+    
+    return {1.f, 1.f, 1.f, 1.f};
 }
 
 std::string TCPClient::GetStatusStr()

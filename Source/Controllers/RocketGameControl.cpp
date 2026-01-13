@@ -51,7 +51,7 @@ void RocketGameControl::RenderServerConnection()
         }
     }
     
-    ImGui::Text(TCPClient::GetStatusStr().c_str());
+    ImGui::TextColored(TCPClient::GetStatusColor(), TCPClient::GetStatusStr().c_str());
     
     ImGui::End();
 }
