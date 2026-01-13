@@ -10,13 +10,13 @@ class Renderer
 {
 public:
     
-    static void SetScale(float scale) { renderScale = scale; }
-    
     static void Init();
     static void SetupBackend();
     
     static void CreateVulkanWindow(VkSurfaceKHR surface, int width, int height);
     static void CheckResizeSwapChain(int width, int height);
+    
+    static void ForceRebuildSwapChain();
     
     static void Render();
     
@@ -37,8 +37,6 @@ public:
     
 private:
     
-    inline static ImVec4 clearColor = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-
     inline static VkAllocationCallbacks*     mAllocator = nullptr;
     inline static VkInstance                 mInstance = VK_NULL_HANDLE;
     inline static VkPhysicalDevice           mPhysicalDevice = VK_NULL_HANDLE;
@@ -52,8 +50,6 @@ private:
     inline static ImGui_ImplVulkanH_Window   mVulkanWindowData;
     inline static uint32_t                   mMinImageCount = 2;
     inline static bool                       mSwapChainRebuild = false;
-    
-    inline static float renderScale = 1.f;
     
 private:
     

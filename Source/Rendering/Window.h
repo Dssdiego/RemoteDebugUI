@@ -19,8 +19,8 @@ private:
     
     inline static bool mShouldClose = false;
     
-    inline static int width = 1200;
-    inline static int height = 800;
+    inline static int width = 1080;
+    inline static int height = 720;
     
     inline static SDL_Window* mWindow = nullptr;
     

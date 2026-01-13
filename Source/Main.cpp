@@ -5,7 +5,6 @@
 
 int main(int, char**)
 {
-    Renderer::SetScale(1.15f);
     Window::Init();
     
     TCPClient::Init();

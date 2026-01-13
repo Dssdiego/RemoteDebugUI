@@ -3,13 +3,16 @@
 #include <imgui/imgui.h>
 
 #include "../Controllers/RocketGameControl.h"
+#include "../Rendering/Renderer.h"
 
 void DebugUI::Render()
 {
     // NOTE: You can put any ImGui code here to render your own debug interface :)
     
     RocketGameControl::Render();
+    
     // RenderDemos();
+    RenderSettings();
 }
 
 void DebugUI::RenderDemos()
@@ -41,4 +44,20 @@ void DebugUI::RenderDemos()
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
         ImGui::End();
     }
+}
+
+void DebugUI::RenderSettings()
+{
+    ImGui::Begin("Settings");
+    
+    ImGui::ColorEdit3("Clear Color", reinterpret_cast<float*>(&mClearColor));
+    
+    ImGui::DragFloat("UI Scale", &mUIScale, 0.1f);
+    
+    if (ImGui::Button("Apply"))
+    {
+        Renderer::ForceRebuildSwapChain();
+    }
+    
+    ImGui::End();
 }

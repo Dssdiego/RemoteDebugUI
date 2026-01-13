@@ -42,8 +42,8 @@ void Renderer::SetupBackend()
 
     // Setup scaling
     ImGuiStyle& style = ImGui::GetStyle();
-    style.ScaleAllSizes(renderScale);        
-    style.FontScaleDpi = renderScale;       
+    style.ScaleAllSizes(DebugUI::GetUIScale());        
+    style.FontScaleDpi = DebugUI::GetUIScale();       
 
     // Setup Platform/Renderer backends
     ImGui_ImplSDL3_InitForVulkan(Window::GetSDLWindow());
@@ -128,6 +128,16 @@ void Renderer::CheckResizeSwapChain(int width, int height)
     }   
 }
 
+void Renderer::ForceRebuildSwapChain()
+{
+    ImGuiStyle& style = ImGui::GetStyle();
+    style.ScaleAllSizes(DebugUI::GetUIScale());        
+    style.FontScaleDpi = DebugUI::GetUIScale();       
+    
+    vkDeviceWaitIdle(mDevice);
+    mSwapChainRebuild = true;
+}
+
 void Renderer::Render()
 {
     // Start the Dear ImGui frame
@@ -143,10 +153,13 @@ void Renderer::Render()
     const bool is_minimized = (draw_data->DisplaySize.x <= 0.0f || draw_data->DisplaySize.y <= 0.0f);
     if (!is_minimized)
     {
+        auto clearColor = DebugUI::GetClearColor();
+        
         mVulkanWindow->ClearValue.color.float32[0] = clearColor.x * clearColor.w;
         mVulkanWindow->ClearValue.color.float32[1] = clearColor.y * clearColor.w;
         mVulkanWindow->ClearValue.color.float32[2] = clearColor.z * clearColor.w;
         mVulkanWindow->ClearValue.color.float32[3] = clearColor.w;
+        
         FrameRender(mVulkanWindow, draw_data);
         FramePresent(mVulkanWindow);
     }
