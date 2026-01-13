@@ -125,14 +125,14 @@ void RocketGameControl::RenderTabLives()
     if (ImGui::Button("Add Life"))
     {
         std::stringstream ss;
-        ss << "life_add;" << lifeCount << ";";
+        ss << "life_add;" << lifeCount;
         TCPClient::SendData(ss.str());
     }
     ImGui::SameLine();
     if (ImGui::Button("Remove Life"))
     {
         std::stringstream ss;
-        ss << "life_remove;" << lifeCount << ";";
+        ss << "life_remove;" << lifeCount;
         TCPClient::SendData(ss.str());
     }
     
@@ -143,14 +143,14 @@ void RocketGameControl::RenderTabLives()
     if (ImGui::Button("Add Life Slot"))
     {
         std::stringstream ss;
-        ss << "life_slot_add;" << lifeSlotCount << ";";
+        ss << "life_slot_add;" << lifeSlotCount;
         TCPClient::SendData(ss.str());
     }
     ImGui::SameLine();
     if (ImGui::Button("Remove Life Slot"))
     {
         std::stringstream ss;
-        ss << "life_slot_remove;" << lifeSlotCount << ";";
+        ss << "life_slot_remove;" << lifeSlotCount;
         TCPClient::SendData(ss.str());
     }
 }
@@ -165,7 +165,7 @@ void RocketGameControl::RenderTabScenes()
     if (ImGui::Button("Change"))
     {
         std::stringstream ss;
-        ss << "scene_change;" << ids[currentIdx] << ";";
+        ss << "scene_change;" << ids[currentIdx];
         TCPClient::SendData(ss.str());
     }
 }
